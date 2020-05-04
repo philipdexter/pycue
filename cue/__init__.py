@@ -108,6 +108,15 @@ class CueValue:
       raise ValueError(res.decode('UTF-8'))
     return out_float.value
 
+  def to_string(self):
+    if not self.is_string():
+      raise ValueError('can only convert cue string values to strings')
+    out_string = lc.c_char_p()
+    res = lc.String(lc.byref(out_string), self._cue_value_id)
+    if res is not None:
+      raise ValueError(res.decode('UTF-8'))
+    return out_string.value.decode('UTF-8')
+
   def __float__(self):
     return self.to_float()
 

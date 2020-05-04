@@ -77,6 +77,17 @@ func Float(outFloat *float64, id int) *C.char {
 	return nil
 }
 
+//export String
+func String(outString **C.char, id int) *C.char {
+	v := lookup(id)
+	s, err := v.String()
+	if err != nil {
+		return C.CString(err.Error())
+	}
+	*outString = C.CString(s)
+	return nil
+}
+
 //export IsBottom
 func IsBottom(id int) bool {
 	return lookup(id).Kind() == cue.BottomKind

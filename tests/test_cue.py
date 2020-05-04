@@ -50,3 +50,8 @@ def test_basic():
   assert False == bool(cue.compile('false && true'))
   with pytest.raises(ValueError):
     assert True == cue.compile('"hi"').to_int()
+
+  assert "ok" == cue.compile('"ok"').to_string()
+  assert '"okk"' == str(cue.compile('"ok" + "k"'))
+  with pytest.raises(ValueError):
+    assert "ok" == cue.compile('1').to_string()
