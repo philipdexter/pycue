@@ -87,5 +87,17 @@ class CueValue:
   def __int__(self):
     return self.to_int()
 
+  def to_float(self):
+    if not self.is_float():
+      raise ValueError('can only convert cue float values to floats')
+    out_float = lc.c_double()
+    res = lc.Float(lc.byref(out_float), self._cue_value_id)
+    if res is not None:
+      raise ValueError(res.decode('UTF-8'))
+    return out_float.value
+
+  def __float__(self):
+    return self.to_float()
+
   def to_python(self):
     ...

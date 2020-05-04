@@ -39,3 +39,9 @@ def test_basic():
   assert -9223372036854775807 == int(cue.compile('-9223372036854775807 '))
   with pytest.raises(ValueError):
     assert -9223372036854775808 == int(cue.compile('-9223372036854775808 '))
+
+  assert 1.0 == cue.compile('1.0').to_float()
+  assert 2.0 == float(cue.compile('2.0'))
+  with pytest.raises(ValueError):
+    assert 1.0 == cue.compile('"hi"').to_int()
+  assert 4.9 == float(cue.compile('1 + 3.9'))

@@ -32,6 +32,10 @@ golibcue.Int.argtypes = [POINTER(c_longlong), _cue_value_id_t]
 golibcue.Int.restype = c_char_p
 Int = golibcue.Int
 
+golibcue.Float.argtypes = [POINTER(c_double), _cue_value_id_t]
+golibcue.Float.restype = c_char_p
+Float = golibcue.Float
+
 golibcue.IsBottom.argtypes = [c_longlong]
 golibcue.IsBottom.restype = c_int8
 IsBottom = golibcue.IsBottom
