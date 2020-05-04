@@ -70,6 +70,11 @@ def test_basic():
   assert 1.0 == cue.compile('1.0').to_python()
   assert "hi" == cue.compile('"hi"').to_python()
 
+  with pytest.raises(ValueError):
+    cue.compile('a: int').to_python()
+  with pytest.raises(ValueError):
+    cue.compile('a: <3').to_python()
+
 def test_dumps():
   assert '1.0' == cue.dumps(1.0)
   assert '1' == cue.dumps(1)

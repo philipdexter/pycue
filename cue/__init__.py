@@ -141,7 +141,7 @@ class CueValue:
       return self.to_dict()
     if self.is_list():
       return self.to_list()
-    raise ValueError('cannot convert to python')
+    raise ValueError(f'cannot convert \'{str(self)}\' to python')
 
 def compile(s):
   return CueValue(s)
