@@ -1,8 +1,6 @@
 
 import cue.golibcue as lc
 
-# TODO raise exceptions on errors
-
 def compile(s):
   return CueValue(s)
 
@@ -39,7 +37,7 @@ class CueValue:
     elif self.is_list():
       self._iter = lc.Elems(self._cue_value_id)
     else:
-      raise Exception('can only iterate over a struct or list')
+      raise ValueError('can only iterate over a struct or list')
     return self
 
   def __next__(self):
@@ -55,4 +53,4 @@ class CueValue:
       value = CueValue(lc.Value(self._iter))
       return value
     else:
-      raise Exception('can only iterate over a struct or list')
+      raise ValueError('can only iterate over a struct or list')
