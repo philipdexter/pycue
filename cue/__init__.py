@@ -10,8 +10,10 @@ elif sizeof(c_void_p) == 8:
 class GoString(Structure):
   _fields_ = [("p", c_char_p), ("n", ptrdiff_t)]
 
-lc.Compile.argtypes = [GoString]
-lc.Compile.restype = c_longlong
+_cue_value_id_t = c_longlong
+
+lc.Compile.argtypes = [POINTER(_cue_value_id_t), GoString]
+lc.Compile.restype = c_char_p
 lc.ToString.argtypes = [c_longlong]
 lc.ToString.restype = c_char_p
 lc.Print.argtypes = [c_longlong]
@@ -42,19 +44,26 @@ lc.Label.restype = c_char_p
 lc.Value.argtypes = [c_longlong]
 lc.Value.restype = c_longlong
 
-def compile(s):
-  return CueValue(s)
 
 # TODO raise exceptions on errors
+
+def compile(s):
+  return CueValue(s)
 
 class CueValue:
   def __init__(self, s):
     if isinstance(s, str):
       bs = s.encode('UTF-8')
-      self._cue_value_id = lc.Compile(GoString(bs, len(s)))
+      out_cue_value_id = _cue_value_id_t()
+      res = lc.Compile(byref(out_cue_value_id), GoString(bs, len(s)))
+      if res != None:
+        res = res.decode('UTF-8')
+        raise ValueError(res)
+      self._cue_value_id = out_cue_value_id.value
     elif isinstance(s, int):
       self._cue_value_id = s
     else:
+      raise ValueError('argument to CueValue.__init__ must be a string or integer')
       # TODO throw exception
       ...
 

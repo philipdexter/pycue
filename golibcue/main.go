@@ -88,12 +88,17 @@ func ToString(id int) *C.char {
 }
 
 //export Compile
-func Compile(str string) int {
+func Compile(outId *int, str string) *C.char {
 	i, err := r.Compile("", str)
 	if err != nil {
-		return -1
+		return C.CString(err.Error())
 	}
-	return insert(i.Value())
+	v := i.Value()
+	if v.Err() != nil {
+		return C.CString(v.Err().Error())
+	}
+	*outId = insert(i.Value())
+	return nil
 }
 
 //export Unifies
