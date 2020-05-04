@@ -1,7 +1,8 @@
 
 from ctypes import *
+import pathlib
 
-golibcue = cdll.LoadLibrary("golibcue.so")
+golibcue = cdll.LoadLibrary(pathlib.Path(__file__).parent.absolute().joinpath('_golibcue.so'))
 
 if sizeof(c_void_p) == 4:
   ptrdiff_t = c_int32

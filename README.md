@@ -8,6 +8,6 @@ $ pip install requirements.txt
 $ cd golibcue
 $ ./build.sh
 $ cd ..
-$ LD_LIBRARY_PATH=./golibcue python example.py
-$ LD_LIBRARY_PATH=./golibcue python -m pytest
+$ python example.py
+$ python -m pytest
 ```
