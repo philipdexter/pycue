@@ -45,3 +45,8 @@ def test_basic():
   with pytest.raises(ValueError):
     assert 1.0 == cue.compile('"hi"').to_int()
   assert 4.9 == float(cue.compile('1 + 3.9'))
+
+  assert True == cue.compile('true').to_bool()
+  assert False == bool(cue.compile('false && true'))
+  with pytest.raises(ValueError):
+    assert True == cue.compile('"hi"').to_int()

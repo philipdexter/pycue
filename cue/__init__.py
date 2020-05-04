@@ -75,6 +75,18 @@ class CueValue:
     else:
       raise ValueError('can only iterate over a struct or list')
 
+  def to_bool(self):
+    if not self.is_bool():
+      raise ValueError('can only convert cue boolean values to bools')
+    out_bool = lc.c_int8()
+    res = lc.Bool(lc.byref(out_bool), self._cue_value_id)
+    if res is not None:
+      raise ValueError(res.decode('UTF-8'))
+    return bool(out_bool.value)
+
+  def __bool__(self):
+    return self.to_bool()
+
   def to_int(self):
     if not self.is_int():
       raise ValueError('can only convert cue integer values to ints')

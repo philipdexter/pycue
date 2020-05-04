@@ -28,6 +28,10 @@ golibcue.Unifies.argtypes = [c_longlong, c_longlong]
 golibcue.Unifies.restype = c_int8
 Unifies = golibcue.Unifies
 
+golibcue.Bool.argtypes = [POINTER(c_int8), _cue_value_id_t]
+golibcue.Bool.restype = c_char_p
+Bool = golibcue.Bool
+
 golibcue.Int.argtypes = [POINTER(c_longlong), _cue_value_id_t]
 golibcue.Int.restype = c_char_p
 Int = golibcue.Int

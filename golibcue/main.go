@@ -44,6 +44,17 @@ func Elems(id int) int {
 	return insertIter(&liter)
 }
 
+//export Bool
+func Bool(outBool *bool, id int) *C.char {
+	v := lookup(id)
+	b, err := v.Bool()
+	if err != nil {
+		return C.CString(err.Error())
+	}
+	*outBool = b
+	return nil
+}
+
 //export Int
 func Int(outInt *int, id int) *C.char {
 	v := lookup(id)
