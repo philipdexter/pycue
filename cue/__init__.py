@@ -26,13 +26,6 @@ lc.IsStruct.restype = c_int8
 lc.IsList.argtypes = [c_longlong]
 lc.IsList.restype = c_int8
 
-lc.Test.argtypes = [POINTER(c_longlong)]
-lc.Test.restype = None
-
-a = c_longlong(1)
-lc.Test(byref(a))
-print(a.value)
-
 lc.Fields.argtypes = [c_longlong]
 lc.Fields.restype = c_longlong
 lc.Elems.argtypes = [c_longlong]

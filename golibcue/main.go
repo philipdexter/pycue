@@ -72,11 +72,6 @@ func Value(id int) int {
 	return insert(i.Value())
 }
 
-//export Test
-func Test(i *int) {
-	*i = 2
-}
-
 //export ToString
 func ToString(id int) *C.char {
 	i := lookup(id)
