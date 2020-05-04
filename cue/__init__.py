@@ -43,32 +43,38 @@ lc.Value.argtypes = [c_longlong]
 lc.Value.restype = c_longlong
 
 def compile(s):
-  return CueInstance(s)
+  return CueValue(s)
 
 # TODO raise exceptions on errors
 
-class CueInstance:
+class CueValue:
   def __init__(self, s):
-    bs = s.encode('UTF-8')
-    self._cue_instance = lc.Compile(GoString(bs, len(s)))
+    if isinstance(s, str):
+      bs = s.encode('UTF-8')
+      self._cue_value_id = lc.Compile(GoString(bs, len(s)))
+    elif isinstance(s, int):
+      self._cue_value_id = s
+    else:
+      # TODO throw exception
+      ...
 
   def unifies_with(self, other):
-    return bool(lc.Unifies(self._cue_instance, other._cue_instance))
+    return bool(lc.Unifies(self._cue_value_id, other._cue_value_id))
 
   def is_struct(self):
-    return bool(lc.IsStruct(self._cue_instance))
+    return bool(lc.IsStruct(self._cue_value_id))
 
   def is_list(self):
-    return bool(lc.IsList(self._cue_instance))
+    return bool(lc.IsList(self._cue_value_id))
 
   def __str__(self):
-    return lc.ToString(self._cue_instance).decode('UTF-8')
+    return lc.ToString(self._cue_value_id).decode('UTF-8')
 
   def __iter__(self):
     if self.is_struct():
-      self._iter = lc.Fields(self._cue_instance)
+      self._iter = lc.Fields(self._cue_value_id)
     elif self.is_list():
-      self._iter = lc.Elems(self._cue_instance)
+      self._iter = lc.Elems(self._cue_value_id)
     else:
       # TODO raise exception
       ...
@@ -81,12 +87,10 @@ class CueInstance:
 
     if self.is_struct():
       label = lc.Label(self._iter).decode('UTF_8')
-      value = CueInstance('')
-      value._cue_instance = lc.Value(self._iter)
+      value = CueValue(lc.Value(self._iter))
       return label, value
     elif self.is_list():
-      value = CueInstance('')
-      value._cue_instance = lc.Value(self._iter)
+      value = CueValue(lc.Value(self._iter))
       return value
     else:
       # TODO raise exception
