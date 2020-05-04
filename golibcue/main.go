@@ -34,6 +34,26 @@ func Fields(id int) int {
 	return insertIter(fiter)
 }
 
+//export Elems
+func Elems(id int) int {
+	i := lookup(id)
+	liter, err := i.List()
+	if err != nil {
+		return -1
+	}
+	return insertIter(&liter)
+}
+
+//export IsStruct
+func IsStruct(id int) bool {
+	return lookup(id).Kind() == cue.StructKind
+}
+
+//export IsList
+func IsList(id int) bool {
+	return lookup(id).Kind() == cue.ListKind
+}
+
 //export Next
 func Next(id int) bool {
 	i := lookupIter(id)

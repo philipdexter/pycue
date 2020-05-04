@@ -23,3 +23,9 @@ c : spec & {
 }
 '''):
   print(f'{key=} {value=!s}')
+
+
+for val in cue.compile('''
+[1,2,{a:3}]
+'''):
+  print(f'{val=!s}')
