@@ -146,6 +146,9 @@ class CueValue:
 def compile(s):
   return CueValue(s)
 
+def loads(s):
+  return CueValue(s).to_python()
+
 def dumps(d):
   out = ''
   if isinstance(d, dict):

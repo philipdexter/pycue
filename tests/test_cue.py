@@ -77,3 +77,24 @@ def test_dumps():
   assert '"true"' == cue.dumps("true")
   assert '[1,2,3]' == cue.dumps([1,2,3])
   assert '[{a:1},{b:2},{c:[2,"hi"]}]' == cue.dumps([{'a':1},{'b':2},{'c':[2,'hi']}])
+
+def test_loads():
+  assert 1.0 == cue.loads('1.0')
+  assert 1 == cue.loads('1')
+  assert True == cue.loads('true')
+  assert "true" == cue.loads('"true"')
+  assert [1,2,3] == cue.loads('[1,2,3]')
+  assert [{'a':1},{'b':2},{'c':[2,'hi']}] == cue.loads('[{a:1},{b:2},{c:[2,"hi"]}]')
+
+def test_dumps_loads():
+  ps = [
+    (1.0, '1.0'),
+    (1, '1'),
+    (True, 'true'),
+    ("true", '"true"'),
+    ([1,2,3], '[1,2,3]'),
+    ([{'a':1},{'b':2},{'c':[2,'hi']}], '[{a:1},{b:2},{c:[2,"hi"]}]'),
+   ]
+  for p, s in ps:
+    assert p == cue.loads(cue.dumps(p))
+    assert s == cue.dumps(cue.loads(s))
