@@ -20,8 +20,6 @@ class CueValue:
       self._cue_value_id = s
     else:
       raise ValueError('argument to CueValue.__init__ must be a string or integer')
-      # TODO throw exception
-      ...
 
   def unifies_with(self, other):
     return bool(lc.Unifies(self._cue_value_id, other._cue_value_id))
@@ -41,8 +39,7 @@ class CueValue:
     elif self.is_list():
       self._iter = lc.Elems(self._cue_value_id)
     else:
-      # TODO raise exception
-      ...
+      raise Exception('can only iterate over a struct or list')
     return self
 
   def __next__(self):
@@ -58,5 +55,4 @@ class CueValue:
       value = CueValue(lc.Value(self._iter))
       return value
     else:
-      # TODO raise exception
-      ...
+      raise Exception('can only iterate over a struct or list')
