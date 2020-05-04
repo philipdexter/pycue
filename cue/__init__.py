@@ -120,5 +120,27 @@ class CueValue:
   def __float__(self):
     return self.to_float()
 
+  def to_dict(self):
+    if not self.is_struct():
+      raise ValueError('can only convert cue struct values to dicts')
+    return {k: v.to_python() for k, v in self}
+
+  def to_list(self):
+    if not self.is_list():
+      raise ValueError('can only convert cue struct values to dicts')
+    return [v.to_python() for v in self]
+
   def to_python(self):
-    ...
+    if self.is_bool():
+      return self.to_bool()
+    if self.is_int():
+      return self.to_int()
+    if self.is_float():
+      return self.to_float()
+    if self.is_string():
+      return self.to_string()
+    if self.is_struct():
+      return self.to_dict()
+    if self.is_list():
+      return self.to_list()
+    raise ValueError('cannot convert to python')

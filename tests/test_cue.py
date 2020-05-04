@@ -55,3 +55,17 @@ def test_basic():
   assert '"okk"' == str(cue.compile('"ok" + "k"'))
   with pytest.raises(ValueError):
     assert "ok" == cue.compile('1').to_string()
+
+  assert {'a': 1, 'b': [{'c': 1}]} == cue.compile('{a: 1, b: [{c: 1}]}').to_dict()
+  assert {} == cue.compile('').to_dict()
+  with pytest.raises(ValueError):
+    assert {} == cue.compile('1').to_dict()
+
+  assert [1,2,{'a':2,'b':{'c':2}}] == cue.compile('[1,2,{a:2,b:{c:2}}]').to_list()
+  with pytest.raises(ValueError):
+    assert [] == cue.compile('1').to_list()
+
+  assert True == cue.compile('true').to_python()
+  assert 1 == cue.compile('1').to_python()
+  assert 1.0 == cue.compile('1.0').to_python()
+  assert "hi" == cue.compile('"hi"').to_python()
