@@ -28,6 +28,38 @@ golibcue.Unifies.argtypes = [c_longlong, c_longlong]
 golibcue.Unifies.restype = c_int8
 Unifies = golibcue.Unifies
 
+golibcue.Int.argtypes = [POINTER(c_longlong), _cue_value_id_t]
+golibcue.Int.restype = c_char_p
+Int = golibcue.Int
+
+golibcue.IsBottom.argtypes = [c_longlong]
+golibcue.IsBottom.restype = c_int8
+IsBottom = golibcue.IsBottom
+
+golibcue.IsNull.argtypes = [c_longlong]
+golibcue.IsNull.restype = c_int8
+IsNull = golibcue.IsNull
+
+golibcue.IsBool.argtypes = [c_longlong]
+golibcue.IsBool.restype = c_int8
+IsBool = golibcue.IsBool
+
+golibcue.IsInt.argtypes = [c_longlong]
+golibcue.IsInt.restype = c_int8
+IsInt = golibcue.IsInt
+
+golibcue.IsFloat.argtypes = [c_longlong]
+golibcue.IsFloat.restype = c_int8
+IsFloat = golibcue.IsFloat
+
+golibcue.IsString.argtypes = [c_longlong]
+golibcue.IsString.restype = c_int8
+IsString = golibcue.IsString
+
+golibcue.IsBytes.argtypes = [c_longlong]
+golibcue.IsBytes.restype = c_int8
+IsBytes = golibcue.IsBytes
+
 golibcue.IsStruct.argtypes = [c_longlong]
 golibcue.IsStruct.restype = c_int8
 IsStruct = golibcue.IsStruct

@@ -44,6 +44,52 @@ func Elems(id int) int {
 	return insertIter(&liter)
 }
 
+//export Int
+func Int(outInt *int, id int) *C.char {
+	v := lookup(id)
+	i64, err := v.Int64()
+	if err != nil {
+		return C.CString(err.Error())
+	}
+	*outInt = int(i64)
+	return nil
+}
+
+//export IsBottom
+func IsBottom(id int) bool {
+	return lookup(id).Kind() == cue.BottomKind
+}
+
+//export IsNull
+func IsNull(id int) bool {
+	return lookup(id).Kind() == cue.NullKind
+}
+
+//export IsBool
+func IsBool(id int) bool {
+	return lookup(id).Kind() == cue.BoolKind
+}
+
+//export IsInt
+func IsInt(id int) bool {
+	return lookup(id).Kind() == cue.IntKind
+}
+
+//export IsFloat
+func IsFloat(id int) bool {
+	return lookup(id).Kind() == cue.FloatKind
+}
+
+//export IsString
+func IsString(id int) bool {
+	return lookup(id).Kind() == cue.StringKind
+}
+
+//export IsBytes
+func IsBytes(id int) bool {
+	return lookup(id).Kind() == cue.BytesKind
+}
+
 //export IsStruct
 func IsStruct(id int) bool {
 	return lookup(id).Kind() == cue.StructKind

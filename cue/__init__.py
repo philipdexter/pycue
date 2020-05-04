@@ -10,9 +10,8 @@ class CueValue:
       bs = s.encode('UTF-8')
       out_cue_value_id = lc._cue_value_id_t()
       res = lc.Compile(lc.byref(out_cue_value_id), lc.GoString(bs, len(s)))
-      if res != None:
-        res = res.decode('UTF-8')
-        raise ValueError(res)
+      if res is not None:
+        raise ValueError(res.decode('UTF-8'))
       self._cue_value_id = out_cue_value_id.value
     elif isinstance(s, int):
       self._cue_value_id = s
@@ -21,6 +20,27 @@ class CueValue:
 
   def unifies_with(self, other):
     return bool(lc.Unifies(self._cue_value_id, other._cue_value_id))
+
+  def is_bottom(self):
+    return bool(lc.IsBottom(self._cue_value_id))
+
+  def is_null(self):
+    return bool(lc.IsNull(self._cue_value_id))
+
+  def is_bool(self):
+    return bool(lc.IsBool(self._cue_value_id))
+
+  def is_int(self):
+    return bool(lc.IsInt(self._cue_value_id))
+
+  def is_float(self):
+    return bool(lc.IsFloat(self._cue_value_id))
+
+  def is_string(self):
+    return bool(lc.IsString(self._cue_value_id))
+
+  def is_bytes(self):
+    return bool(lc.IsBytes(self._cue_value_id))
 
   def is_struct(self):
     return bool(lc.IsStruct(self._cue_value_id))
@@ -54,3 +74,18 @@ class CueValue:
       return value
     else:
       raise ValueError('can only iterate over a struct or list')
+
+  def to_int(self):
+    if not self.is_int():
+      raise ValueError('can only convert cue integer values to ints')
+    out_int = lc.c_longlong()
+    res = lc.Int(lc.byref(out_int), self._cue_value_id)
+    if res is not None:
+      raise ValueError(res.decode('UTF-8'))
+    return out_int.value
+
+  def __int__(self):
+    return self.to_int()
+
+  def to_python(self):
+    ...
