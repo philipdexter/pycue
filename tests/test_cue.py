@@ -69,3 +69,11 @@ def test_basic():
   assert 1 == cue.compile('1').to_python()
   assert 1.0 == cue.compile('1.0').to_python()
   assert "hi" == cue.compile('"hi"').to_python()
+
+def test_dumps():
+  assert '1.0' == cue.dumps(1.0)
+  assert '1' == cue.dumps(1)
+  assert 'true' == cue.dumps(True)
+  assert '"true"' == cue.dumps("true")
+  assert '[1,2,3]' == cue.dumps([1,2,3])
+  assert '[{a:1},{b:2},{c:[2,"hi"]}]' == cue.dumps([{'a':1},{'b':2},{'c':[2,'hi']}])

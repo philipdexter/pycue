@@ -1,8 +1,6 @@
 
 import cue.golibcue as lc
 
-def compile(s):
-  return CueValue(s)
 
 class CueValue:
   def __init__(self, s):
@@ -144,3 +142,36 @@ class CueValue:
     if self.is_list():
       return self.to_list()
     raise ValueError('cannot convert to python')
+
+def compile(s):
+  return CueValue(s)
+
+def dumps(d):
+  out = ''
+  if isinstance(d, dict):
+    out += '{'
+    for k, v in d.items():
+      if isinstance(k, str):
+        out += k
+      else:
+        out += str(k)
+      out += ':'
+      out += dumps(v)
+    out += '}'
+  elif isinstance(d, list):
+    out += '['
+    for i, v in enumerate(d):
+      out += dumps(v)
+      if i != len(d) - 1:
+        out += ','
+    out += ']'
+  elif isinstance(d, bool):
+    if d:
+      out += 'true'
+    else:
+      out += 'false'
+  elif isinstance(d, str):
+    out += f'"{d}"'
+  else:
+    out += str(d)
+  return out
