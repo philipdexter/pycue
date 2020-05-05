@@ -1,6 +1,8 @@
 
 import cue.golibcue as lc
 
+class CueError(Exception):
+  ...
 
 class CueValue:
   def __init__(self, s):
@@ -9,7 +11,7 @@ class CueValue:
       out_cue_value_id = lc._cue_value_id_t()
       res = lc.Compile(lc.byref(out_cue_value_id), lc.GoString(bs, len(s)))
       if res is not None:
-        raise ValueError(res.decode('UTF-8'))
+        raise CueError(res.decode('UTF-8'))
       self._cue_value_id = out_cue_value_id.value
     elif isinstance(s, int):
       self._cue_value_id = s
@@ -79,7 +81,7 @@ class CueValue:
     out_bool = lc.c_int8()
     res = lc.Bool(lc.byref(out_bool), self._cue_value_id)
     if res is not None:
-      raise ValueError(res.decode('UTF-8'))
+      raise CueError(res.decode('UTF-8'))
     return bool(out_bool.value)
 
   def __bool__(self):
@@ -91,7 +93,7 @@ class CueValue:
     out_int = lc.c_longlong()
     res = lc.Int(lc.byref(out_int), self._cue_value_id)
     if res is not None:
-      raise ValueError(res.decode('UTF-8'))
+      raise CueError(res.decode('UTF-8'))
     return out_int.value
 
   def __int__(self):
@@ -103,7 +105,7 @@ class CueValue:
     out_float = lc.c_double()
     res = lc.Float(lc.byref(out_float), self._cue_value_id)
     if res is not None:
-      raise ValueError(res.decode('UTF-8'))
+      raise CueError(res.decode('UTF-8'))
     return out_float.value
 
   def to_string(self):
@@ -112,7 +114,7 @@ class CueValue:
     out_string = lc.c_char_p()
     res = lc.String(lc.byref(out_string), self._cue_value_id)
     if res is not None:
-      raise ValueError(res.decode('UTF-8'))
+      raise CueError(res.decode('UTF-8'))
     return out_string.value.decode('UTF-8')
 
   def __float__(self):

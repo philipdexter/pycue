@@ -8,7 +8,7 @@ def test_basic():
   assert '1' == str(cue.compile('1'))
   assert ['1', '2', '3', '{\n\ta: 1\n}'] == [str(v) for v in cue.compile('[1,2,3,{a:1}]')]
   assert [('a', '1'), ('b', '2')] == [(str(k), str(v)) for k, v in cue.compile('{a: 1, b: 2}')]
-  with pytest.raises(ValueError):
+  with pytest.raises(cue.CueError):
     cue.compile('a')
   v1 = cue.compile('{a: 1}')
   v2 = cue.compile('{a: 2}')
@@ -34,10 +34,10 @@ def test_basic():
   with pytest.raises(ValueError):
     assert 1 == cue.compile('"hi"').to_int()
   assert 9223372036854775807 == int(cue.compile("9223372036854775807"))
-  with pytest.raises(ValueError):
+  with pytest.raises(cue.CueError):
     assert 9223372036854775808 == int(cue.compile("9223372036854775808"))
   assert -9223372036854775807 == int(cue.compile('-9223372036854775807 '))
-  with pytest.raises(ValueError):
+  with pytest.raises(cue.CueError):
     assert -9223372036854775808 == int(cue.compile('-9223372036854775808 '))
 
   assert 1.0 == cue.compile('1.0').to_float()
