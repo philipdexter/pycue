@@ -78,7 +78,7 @@ class CueValue:
   def to_bool(self):
     if not self.is_bool():
       raise ValueError('can only convert cue boolean values to bools')
-    out_bool = lc.c_int8()
+    out_bool = lc._go_bool()
     res = lc.Bool(lc.byref(out_bool), self._cue_value_id)
     if res is not None:
       raise CueError(res.decode('UTF-8'))
@@ -90,7 +90,7 @@ class CueValue:
   def to_int(self):
     if not self.is_int():
       raise ValueError('can only convert cue integer values to ints')
-    out_int = lc.c_longlong()
+    out_int = lc._go_int_64()
     res = lc.Int(lc.byref(out_int), self._cue_value_id)
     if res is not None:
       raise CueError(res.decode('UTF-8'))
@@ -102,7 +102,7 @@ class CueValue:
   def to_float(self):
     if not self.is_float():
       raise ValueError('can only convert cue float values to floats')
-    out_float = lc.c_double()
+    out_float = lc._go_float_64()
     res = lc.Float(lc.byref(out_float), self._cue_value_id)
     if res is not None:
       raise CueError(res.decode('UTF-8'))
