@@ -2,7 +2,11 @@
 from ctypes import *
 import pathlib
 
-golibcue = cdll.LoadLibrary(pathlib.Path(__file__).parent.absolute().joinpath('_golibcue.so'))
+try:
+  golibcue = cdll.LoadLibrary(pathlib.Path(__file__).parent.absolute().joinpath('_golibcue.so'))
+except OSError:
+  print('Could not find _golibcue.so, have you run `make golibcue`?')
+  exit(1)
 
 if sizeof(c_void_p) == 4:
   ptrdiff_t = c_int32
