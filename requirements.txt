@@ -4,6 +4,6 @@ packaging==20.3
 pluggy==0.13.1
 py==1.10.0
 pyparsing==2.4.7
-pytest==5.4.1
+pytest==9.0.3
 six==1.14.0
 wcwidth==0.1.9
